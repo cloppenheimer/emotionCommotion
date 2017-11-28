@@ -63,10 +63,15 @@ onload = function () {
     // Primitive UI for happy
     if (faces[0].emotions["joy"] > 85) {
       document.body.style.backgroundColor = "yellow";
-      document.getElementById("myui").innerHTML = "Happy!!!"
+    }
+    else if (faces[0].emotions["anger"] > 85) {
+      document.body.style.backgroundColor = "red";
+    }
+    else if (faces[0].emotions["sadness"] > 85) {
+      document.body.style.backgroundColor = "blue";
     }
     else {
-      document.getElementById("myui").innerHTML = ""
+      document.body.style.backgroundColor = "white";
     }
   }
       });
