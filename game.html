@@ -42,6 +42,7 @@ var currEmotion;
 var score = 0;
 var numLives = 10;
 var isCorrect = false;
+var justChangedEmotion = false;
 
 onload = function () {
 		addEmotions()
@@ -115,14 +116,25 @@ onload = function () {
     */
 
     console.log(timestamp)
-    if (Math.floor(timestamp) % 5 == 0 && !isCorrect) {
+    if (timestamp % 5 == 0 && !isCorrect ) {
     	console.log("hi")
     	addEmotions();
     	numLives = numLives - 1;
+    	document.getElementById("numLives").innerHTML = numLives;
     }
     else if (Math.floor(timestamp) % 5 == 0 && isCorrect) {
     	addEmotions();
-    	score = score + 10;
+    	isCorrect = false;
+    	
+    }
+    else {
+
+    	if (faces[0].emotions[currEmotion] > 70) {
+    		score = score + 10;
+    		document.getElementById("score").innerHTML = score;
+    		isCorrect = true;
+    	}
+
     }
    
 
@@ -136,6 +148,7 @@ onload = function () {
 function addEmotions() {
 	 var emotionPics = ["angry", "disgust", "fear", "happy", "sad", "surprise"];
 	 var emotionText = ["Anger", "Disgust", "Fear", "Joy", "Sadness", "Surprise"];
+	 var emotions = ["anger", "disgust", "fear", "joy", "sadness", "surprise"];
 
 	var randomPicEmotion =  Math.floor(Math.random() * 6);
 	var randomPicNum = Math.floor(Math.random() * ( 5 - 1) + 1);
@@ -148,8 +161,9 @@ function addEmotions() {
 
 	document.getElementById("emotionText").innerHTML = emotionText[randomTextEmotion];
 
-	currEmotion = emotionText[randomTextEmotion];
+	currEmotion = emotions[randomTextEmotion];
 
+	justChangedEmotion = true;
 }
 
 function log(node_name, msg) {
