@@ -140,7 +140,7 @@ onload = function () {
     }
     else {*/
 
-    	if (faces[0].emotions[currEmotion] > 70) {
+    	if (faces[0].emotions[currEmotion] > 70 && !isCorrect) {
     		score = score + 10;
     		document.getElementById("score").innerHTML = score;
     		isCorrect = true;
