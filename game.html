@@ -31,16 +31,19 @@
 
 
 <script src="https://download.affectiva.com/js/3.2/affdex.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
 <script type="text/javascript">
 
 
 var width = 640;
 var height = 480;
 var detector;
+var currEmotion;
+var score = 0;
+var numLives = 10;
 
 onload = function () {
+		addEmotions()
       var divRoot = document.getElementById("affdex_elements")
 
       //Construct a CameraDetector and specify the image width / height and face detector mode.
@@ -90,7 +93,7 @@ onload = function () {
           drawFeaturePoints(image, faces[0].featurePoints);
 
     // Primitive UI for happy
-    if (faces[0].emotions["joy"] > 85) {
+    /*if (faces[0].emotions["joy"] > 85) {
       document.body.style.backgroundColor = "yellow";
     }
     else if (faces[0].emotions["anger"] > 85) {
@@ -101,10 +104,46 @@ onload = function () {
     }
     else if (faces[0].emotions["surprise"] > 85) {
           document.body.style.backgroundColor = "purple";
-    }
+    }*/
+    /*
+	1. insert random image
+	2. insert random text
+	3. start timer
+	4. if emotion detected, stop timer and increase score
+	5. if timer runs out, switch everything and reset
+    */
 
-  }
+    console.log(timestamp)
+    if (Math.floor(timestamp) % 5 == 5) {
+    	console.log("hi")
+    	addEmotions();
+    }
+   
+
+
+
+
+  	}
       });
+}
+
+function addEmotions() {
+	 var emotionPics = ["angry", "disgust", "fear", "happy", "sad", "surprise"];
+	 var emotionText = ["Anger", "Disgust", "Fear", "Joy", "Sadness", "Surprise"];
+
+	var randomPicEmotion =  Math.floor(Math.random() * 6);
+	var randomPicNum = Math.floor(Math.random() * ( 5 - 1) + 1);
+
+	var randomTextEmotion = Math.floor(Math.random() * 6);
+
+	var imageName = "images/" + emotionPics[randomPicEmotion] + randomPicNum.toString() + ".jpg";
+
+	document.getElementById("emotionImage").src = imageName;
+
+	document.getElementById("emotionText").innerHTML = emotionText[randomTextEmotion];
+
+	currEmotion = emotionText[randomTextEmotion];
+
 }
 
 function log(node_name, msg) {
@@ -161,7 +200,8 @@ function drawFeaturePoints(img, featurePoints) {
 </head>
 
 <body>
-  <div>
+	
+
     <div>
       <button id="start" onclick="onStart()">Start</button>
       <button id="stop" onclick="onStop()">Stop</button>
@@ -169,17 +209,16 @@ function drawFeaturePoints(img, featurePoints) {
       <h1>Emotion Commotion</h1>
     </div>
 
-    <div class = "container-fluid">
+    <div class = "container">
 	    <div class = "row">
-	    	<div class="col-md-6">
-	    		<div class = "emotionText" > <h3>Joy</h3> </div>
-	    		<div id = "emotionImage"> <img src = images/angry1.jpg style = "width:544px;height:384px;"></div>
+	    	<div class="col-sm-6">
+	    		<p id = "emotionText" > Joy </p>
+	    		<img src id = "emotionImage"= images/angry1.jpg style = "width:50%;height:50%;">
 	    	</div>
 
-	    	<div class="col-md-6">
-	    		<p> hi </p>
-	     		<!--<div id="affdex_elements" style="width:544px;height:384px;"></div>-->
-	     		<div id="affdex_elements" style="width:50%;height:50%;"></div>
+	    	<div class="col-sm-6">
+	     		<div id="affdex_elements" style="width:544px;height:384px;"></div>
+	     		<!--<div id="affdex_elements" style="width:50%;height:50%;"></div>-->
 	     		<p> Score: <div id = "score">0</div> </p>
 	     		<p> Remaining lives: <div id = "numLives">10</div></p>
 	     	</div>
@@ -187,19 +226,20 @@ function drawFeaturePoints(img, featurePoints) {
 	     </div>
  	</div>
 
+
     <br/>
     <br/>
     <div id="myui" style="color:red;"></div>
-        </div>
         <div style="height:25em;">
           <strong>Emotion Tracking Results</strong>
           <div id="results" style="word-wrap:break-word;"></div>
         </div>
         <div>
           <strong>Detector Log Msgs</strong>
-    <div id="logs"></div>
+    		<div id="logs"></div>
         </div>
-    </div>
-  </div
+
+ 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 </body>
 </html>
