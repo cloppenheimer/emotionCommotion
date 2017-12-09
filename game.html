@@ -114,20 +114,31 @@ onload = function () {
 	4. if emotion detected, stop timer and increase score
 	5. if timer runs out, switch everything and reset
     */
+    var intervalID = window.setInterval(callback, 5000);
 
-    console.log(timestamp)
-    if (timestamp % 5 == 0 && !isCorrect &&) {
+    function callback() {
+    	console.log("in callback")
+    	addEmotions();
+    	if (!isCorrect) {
+    		numLives = numLives - 1;
+    		document.getElementById("numLives").innerHTML = numLives;
+    	}
+    	else {
+    		isCorrect = false;
+    	}
+    }
+    //console.log(timestamp)
+    /*if (timestamp % 5 == 0 && !isCorrect &&) {
     	console.log("hi")
     	addEmotions();
-    	numLives = numLives - 1;
-    	document.getElementById("numLives").innerHTML = numLives;
+    	
     }
     else if (Math.floor(timestamp) % 5 == 0 && isCorrect &&) {
     	addEmotions();
-    	isCorrect = false;
+    	
     	
     }
-    else {
+    else {*/
 
     	if (faces[0].emotions[currEmotion] > 70) {
     		score = score + 10;
@@ -135,7 +146,7 @@ onload = function () {
     		isCorrect = true;
     	}
 
-    }
+    //}
    
 
 
