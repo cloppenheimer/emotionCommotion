@@ -73,6 +73,8 @@ var score = 0;
 var numLives = 10;
 var isCorrect = false;
 var justChangedEmotion = false;
+var levelUp = false;
+var increment = 5;
 
 onload = function () {
 	  addEmotions()
@@ -128,12 +130,17 @@ onload = function () {
           }));*/
           drawFeaturePoints(image, faces[0].featurePoints);
 
-
+          if (score == 60) {
+          	document.getElementById("userFeedback").innerHTML = "nice work, level up!"
+	    	document.getElementById("userFeedback").style.opacity = 1;
+          	levelUp = true;
+          	increment = 3;
+          }
 
  
-	    var currTime = Math.ceil(5 - (timestamp % 5));
+	    var currTime = Math.ceil(increment - (timestamp % increment));
 	    document.getElementById("currTime").innerHTML = "Time left: " + currTime.toString()
-	    if (timestamp % 5 < 0.15 && !isCorrect ) {
+	    if (timestamp % increment < 0.15 && !isCorrect ) {
 	    	console.log("hi")
 	    	addEmotions();
 	    	numLives = numLives - 1;
@@ -144,19 +151,18 @@ onload = function () {
 	    		window.location = "gameOver.html"
 	    	
 	    }
-	    else if (timestamp % 5 < 0.15 && isCorrect) {
+	    else if (timestamp % increment < 0.15 && isCorrect) {
 	    	addEmotions();
 	    	document.getElementById("userFeedback").innerHTML = "hi"
 	    	document.getElementById("userFeedback").style.opacity = 0;
 	    	isCorrect = false;
 	    	
 	    }
-	    else if (currTime == 2 && !isCorrect) {
+	    else if (currTime == 2 && !isCorrect && !levelUp) {
 	    	document.getElementById("userFeedback").innerHTML = "hurry up!"
 	    	document.getElementById("userFeedback").style.opacity = 1;
 	    }
 	    else {
-
 	    	if (faces[0].emotions[currEmotion] > 70 && !isCorrect) {
 	    		score = score + 10;
 	    		document.getElementById("score").innerHTML = "Score: " + score.toString();
