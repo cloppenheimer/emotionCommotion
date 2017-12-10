@@ -37,17 +37,21 @@ var isCorrect = false;
 var justChangedEmotion = false;
 
 onload = function () {
-		addEmotions()
+	  addEmotions()
       var divRoot = document.getElementById("affdex_elements")
 
       //Construct a CameraDetector and specify the image width / height and face detector mode.
       detector = new affdex.CameraDetector(divRoot, width, height, affdex.FaceDetectorMode.LARGE_FACES);
+      console.log("made detector")
 
+     
       //Enable detection of all Expressions, Emotions and Emojis classifiers.
       detector.detectAllEmotions();
      /* detector.detectAllExpressions();
       detector.detectAllEmojis();
       detector.detectAllAppearance();*/
+
+       onStart()
 
       //Add a callback to notify when the detector is initialized and ready for runing.
       detector.addEventListener("onInitializeSuccess", function() {
@@ -183,6 +187,7 @@ function log(node_name, msg) {
 
 //function executes when Start button is pushed.
 function onStart() {
+	console.log("starting")
   if (detector && !detector.isRunning) {
     document.getElementById("logs").innerHTML = ""
     detector.start();
@@ -234,21 +239,22 @@ function drawFeaturePoints(img, featurePoints) {
 	
 
     <div>
-      <button id="start" onclick="onStart()">Start</button>
+      <!-- <button id="start" onclick="onStart()">Start</button>
       <button id="stop" onclick="onStop()">Stop</button>
-      <button id="reset" onclick="onReset()">Reset</button>
+      <button id="reset" onclick="onReset()">Reset</button> -->
+
       <h1>Emotion Commotion</h1>
     </div>
 
     <div class = "container">
 	    <div class = "row">
-	    	<div class="col-sm-6">
+	    	<div class="col-sm-5">
 	    		<p id = "emotionText" > Joy </p>
-	    		<img src id = "emotionImage"= images/angry1.jpg style = "width:50%;height:50%;">
+	    		<img src id = "emotionImage"= images/angry1.jpg style = "max-width: 400px;max-height:400px;">
 	    	</div>
 
-	    	<div class="col-sm-6">
-	     		<div id="affdex_elements" style="width:544px;height:384px;"></div>
+	    	<div class="col-sm-7">
+	     		<div id="affdex_elements" style="width:75%;height:75%;"></div>
 	     		<!--<div id="affdex_elements" style="width:50%;height:50%;"></div>-->
 	     		<p> Score: <div id = "score">0</div> </p>
 	     		<p> Remaining lives: <div id = "numLives">10</div></p>
