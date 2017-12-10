@@ -139,7 +139,7 @@ onload = function () {
  
 	    var currTime = Math.ceil(increment - (timestamp % increment));
 	    document.getElementById("currTime").innerHTML = "Time left: " + currTime.toString()
-	    if (timestamp % increment < 0.15 && !isCorrect ) {
+	    if (timestamp % increment < 0.13 && !isCorrect ) {
 	    	console.log("hi")
 	    	addEmotions();
 	    	numLives = numLives - 1;
@@ -150,7 +150,7 @@ onload = function () {
 	    		window.location = "gameOver.html"
 	    	
 	    }
-	    else if (timestamp % increment < 0.15 && isCorrect) {
+	    else if (timestamp % increment < 0.13 && isCorrect) {
 	    	addEmotions();
 	    	document.getElementById("userFeedback").innerHTML = "hi"
 	    	document.getElementById("userFeedback").style.opacity = 0;
