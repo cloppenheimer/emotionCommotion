@@ -121,6 +121,8 @@ onload = function () {
           }));*/
           drawFeaturePoints(image, faces[0].featurePoints);
 
+
+
  
 	    var currTime = Math.ceil(5 - (timestamp % 5));
 	    document.getElementById("currTime").innerHTML = "Time left: " + currTime.toString()
@@ -129,6 +131,8 @@ onload = function () {
 	    	addEmotions();
 	    	numLives = numLives - 1;
 	    	document.getElementById("numLives").innerHTML = "Remaining lives: " + numLives.toString();
+	    	if (numLives == 0)
+	    		window.location = "gameOver.html"
 	    	
 	    }
 	    else if (timestamp % 5 < 0.15 && isCorrect) {
@@ -261,7 +265,7 @@ function drawFeaturePoints(img, featurePoints) {
  	<br/>
  	<br/>
  	<br/>
- 	
+
     <!-- <br/>
     <br/>
     <div id="myui" style="color:red;"></div>
