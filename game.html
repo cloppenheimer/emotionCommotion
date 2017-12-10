@@ -32,6 +32,11 @@
 			background-size: 100% 100%;
 		}
 
+	.feedback {
+		font-size: 34px;
+		
+	}
+
 	#emotion-text {
 			font-size: 40px;
 			padding-top: 20px;
@@ -41,15 +46,15 @@
 	#face_video_canvas {
 		width: 85%;
 		height: 85%;
-		text-align:center;
-		padding-left: 30px;
+		text-align:right;
+		/*padding-left: 30px;*/
 	}
 
 	#face_video {
 		width: 85%;
 		height: 85%;
-		text-align:center;
-		padding-left: 30px;
+		text-align:right;
+		/*padding-left: 30px;*/
 	}
 
 
@@ -133,20 +138,26 @@ onload = function () {
 	    	addEmotions();
 	    	numLives = numLives - 1;
 	    	document.getElementById("numLives").innerHTML = "Remaining lives: " + numLives.toString();
+	    	document.getElementById("userFeedback").innerHTML = ""
 	    	if (numLives == 0)
 	    		window.location = "gameOver.html"
 	    	
 	    }
 	    else if (timestamp % 5 < 0.15 && isCorrect) {
 	    	addEmotions();
+	    	document.getElementById("userFeedback").innerHTML = ""
 	    	isCorrect = false;
 	    	
+	    }
+	    else if (timestamp % 3 < 0.15 && !isCorrect) {
+	    	document.getElementById("userFeedback").innerHTML = "hurry up!"
 	    }
 	    else {
 
 	    	if (faces[0].emotions[currEmotion] > 70 && !isCorrect) {
 	    		score = score + 10;
 	    		document.getElementById("score").innerHTML = "Score: " + score.toString();
+	    		document.getElementById("userFeedback").innerHTML = "correct!"
 	    		isCorrect = true;
 	    	}
 
@@ -243,6 +254,18 @@ function drawFeaturePoints(img, featurePoints) {
 
       <h1>emotion commotion</h1>
     </div>
+    <div class = "feedback" >
+    <div class = "container">
+    	<div class = "row">
+    		<div class="col-sm-6"> </div>
+    		<div class="col-sm-6">
+    			<div id = "userFeedback"></div>
+    		</div>
+
+    	</div>
+
+   </div>
+</div>
 
     <div class = "container">
 	    <div class = "row">
