@@ -161,6 +161,8 @@ onload = function () {
     	}
     }*/
     //console.log(timestamp)
+    var currTime = timestamp % 5;
+    document.getElementById("currTime").innerHTML = "Time: " + currTime.toString();
     if (timestamp % 5 < 0.15 && !isCorrect ) {
     	console.log("hi")
     	addEmotions();
@@ -294,6 +296,7 @@ function drawFeaturePoints(img, featurePoints) {
 	     </div>
  	</div>
 
+ 	<div id = "currTime"> Time: </div>
 
     <br/>
     <br/>
