@@ -113,9 +113,9 @@ onload = function () {
       //The faces object contains the list of the faces detected in an image.
       //Faces object contains probabilities for all the different expressions, emotions and appearance metrics
       detector.addEventListener("onImageResultsSuccess", function(faces, image, timestamp) {
-      document.getElementById("results").innerHTML = ""
+      //document.getElementById("results").innerHTML = ""
         //log('results', "Timestamp: " + timestamp.toFixed(2));
-       /if (faces.length > 0) {
+       if (faces.length > 0) {
           /*log('results', "Emotions: " + JSON.stringify(faces[0].emotions, function(key, val) {
             return val.toFixed ? Number(val.toFixed(0)) : val;
           }));*/
@@ -256,7 +256,12 @@ function drawFeaturePoints(img, featurePoints) {
  	</div>
 
  	<div id = "currTime"> Time: </div>
-
+ 	<br/>
+ 	<br/>
+ 	<br/>
+ 	<br/>
+ 	<br/>
+ 	
     <!-- <br/>
     <br/>
     <div id="myui" style="color:red;"></div>
