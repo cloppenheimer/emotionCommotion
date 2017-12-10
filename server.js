@@ -22,7 +22,7 @@ app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 
 app.get('/', function(request, response) {
-	response.sendFile(path.resolve('start.html'));
+	response.sendFile(path.resolve('index.html'));
 });
 
 app.get('/game.html', function(request, response) {

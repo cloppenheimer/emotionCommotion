@@ -1,0 +1,42 @@
+Clara Oppenheimer and Tanya Sinha
+Assignment 8
+
+Our project is a game that uses the Affectiva API. Our game exemplifies the Stroop Effect,
+which is a demonstration of interference in the reaction time of a task. When the name of
+a color is written in  a different color (for example, the word "pink" printed in
+green instead of in pink), naming the color of the word takes longer and is more 
+prone to errors than when the color of the ink matches the name of the color. Instead of
+using colors, we uses pictures of people expressing various emotions. We also 
+write the name of an emotion directly above or below the picture. The player of the 
+game has 5 seconds to express the emotion written in text, not the emotion displayed 
+in the picture. The player earns 10 points for each correct match. A correct match occurs 
+when the player expresses the emotion, which we define as being above 70 in the emotional
+response data for that specific emotion from the Affectiva API. The game ends when the 
+player fails to match the emotion 10 times. When the player reaches a score of 60, they
+level up and only have 3 seconds to make the correct emotion, instead of 5. 
+
+We did not make too many significant changes from our initial design. Some small changes
+we made included changing the API emotion cutoff from 80 to 70, because it was difficult
+to reach 80 in the given time. We also increased the number of lives from 5 to 10 because
+we wanted the player to have a chance to level up. We also added live user feedback during
+the game to tell the user when they get a correct emotion, when they are running out
+of time, and when they level up. We decided to add this after having some actual users
+test our game. They told us that they were not constantly looking at the clock, and some
+feedback directly in their line of sight would help them succeed at the game. 
+
+We also made some changes in the technologies we were using. The Affectiva API only 
+works when running on a server. Initially, we were pushing our code to Github and 
+using their server. However, the page did not update for several minutes and testing
+was very slow and difficult. Therefore, we decided to code our own server using Node.js.
+This allowed us to test much faster each time we made a change. We also decided to learn
+Bootsrap to help us with the formatting and styling. We were struggling a lot with
+getting the webcam to line up with the image, but Bootstrap made this much more simple. 
+
+Our final technology stack consisted of Javascript, HTML, CSS, Node.js, Bootstrap,
+and the Affectiva API. 
+
+How to run:
+The game can be played in two ways. It is live at https://cloppenheimer.github.io/emotionCommotion/start.html
+or you can play by running the server with the command "node server.js" and visiting http://localhost:5000/
+in a browser.
+
