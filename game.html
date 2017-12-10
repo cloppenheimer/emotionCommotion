@@ -119,7 +119,7 @@ onload = function () {
 
     function startLoop() {
     	if(myInterval > 0) clearInterval(myInterval);  // stop
-    	myInterval = setInterval( "callback()", 5000);  // run
+    	myInterval = setInterval( callback(), 5000);  // run
 	}
 
     function callback() {
