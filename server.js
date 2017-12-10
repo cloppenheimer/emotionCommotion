@@ -29,6 +29,10 @@ app.get('/game.html', function(request, response) {
 	response.sendFile(path.resolve('game.html'));
 });
 
+app.get('/gameOver.html', function(request, response) {
+	response.sendFile(path.resolve('gameOver.html'));
+});
+
 app.post('/submit', function(request, response){
 	response.send({"vehicles":[],"passengers":[]});
 });
