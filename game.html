@@ -161,8 +161,8 @@ onload = function () {
     	}
     }*/
     //console.log(timestamp)
-    var currTime = 5 - (timestamp % 5);
-    document.getElementById("currTime").innerHTML = "Time: " + currTime.toFixed(2);
+    var currTime = Math.floor(5 - (timestamp % 5));
+    document.getElementById("currTime").innerHTML = "Time left: " + currTime.toFixed(2);
     if (timestamp % 5 < 0.15 && !isCorrect ) {
     	console.log("hi")
     	addEmotions();
