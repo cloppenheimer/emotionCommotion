@@ -114,7 +114,7 @@ onload = function () {
 	4. if emotion detected, stop timer and increase score
 	5. if timer runs out, switch everything and reset
     */
-    var myInterval = 0;
+    /*var myInterval = 0;
    	startLoop();
 
     function startLoop() {
@@ -132,11 +132,13 @@ onload = function () {
     	else {
     		isCorrect = false;
     	}
-    }
+    }*/
     //console.log(timestamp)
-    /*if (timestamp % 5 == 0 && !isCorrect &&) {
+    if (timestamp % 5 == 0 && !isCorrect &&) {
     	console.log("hi")
     	addEmotions();
+    	numLives = numLives - 1;
+    	document.getElementById("numLives").innerHTML = numLives;
     	
     }
     else if (Math.floor(timestamp) % 5 == 0 && isCorrect &&) {
@@ -144,7 +146,7 @@ onload = function () {
     	
     	
     }
-    else {*/
+    else {
 
     	if (faces[0].emotions[currEmotion] > 70 && !isCorrect) {
     		score = score + 10;
@@ -152,7 +154,7 @@ onload = function () {
     		isCorrect = true;
     	}
 
-    //}
+    }
    
 
 
