@@ -114,7 +114,13 @@ onload = function () {
 	4. if emotion detected, stop timer and increase score
 	5. if timer runs out, switch everything and reset
     */
-    var intervalID = window.setInterval(callback, 5000);
+    var myInterval = 0;
+   	startLoop();
+
+    function startLoop() {
+    	if(myInterval > 0) clearInterval(myInterval);  // stop
+    	myInterval = setInterval( "callback()", 5000);  // run
+	}
 
     function callback() {
     	console.log("in callback")
