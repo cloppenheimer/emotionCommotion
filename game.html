@@ -115,80 +115,39 @@ onload = function () {
       detector.addEventListener("onImageResultsSuccess", function(faces, image, timestamp) {
       document.getElementById("results").innerHTML = ""
         //log('results', "Timestamp: " + timestamp.toFixed(2));
-       /* if (faces.length > 0) {
-          log('results', "Emotions: " + JSON.stringify(faces[0].emotions, function(key, val) {
+       /if (faces.length > 0) {
+          /*log('results', "Emotions: " + JSON.stringify(faces[0].emotions, function(key, val) {
             return val.toFixed ? Number(val.toFixed(0)) : val;
           }));*/
           drawFeaturePoints(image, faces[0].featurePoints);
 
-    // Primitive UI for happy
-    /*if (faces[0].emotions["joy"] > 85) {
-      document.body.style.backgroundColor = "yellow";
-    }
-    else if (faces[0].emotions["anger"] > 85) {
-      document.body.style.backgroundColor = "red";
-    }
-    else if (faces[0].emotions["sadness"] > 85) {
-      document.body.style.backgroundColor = "blue";
-    }
-    else if (faces[0].emotions["surprise"] > 85) {
-          document.body.style.backgroundColor = "purple";
-    }*/
-    /*
-	1. insert random image
-	2. insert random text
-	3. start timer
-	4. if emotion detected, stop timer and increase score
-	5. if timer runs out, switch everything and reset
-    */
-    /*var myInterval = 0;
-   	startLoop();
+ 
+	    var currTime = Math.ceil(5 - (timestamp % 5));
+	    document.getElementById("currTime").innerHTML = "Time left: " + currTime.toString()
+	    if (timestamp % 5 < 0.15 && !isCorrect ) {
+	    	console.log("hi")
+	    	addEmotions();
+	    	numLives = numLives - 1;
+	    	document.getElementById("numLives").innerHTML = "Remaining lives: " + numLives.toString();
+	    	
+	    }
+	    else if (timestamp % 5 < 0.15 && isCorrect) {
+	    	addEmotions();
+	    	isCorrect = false;
+	    	
+	    }
+	    else {
 
-    function startLoop() {
-    	if(myInterval > 0) clearInterval(myInterval);  // stop
-    	myInterval = setInterval( callback(), 5000);  // run
-	}
+	    	if (faces[0].emotions[currEmotion] > 70 && !isCorrect) {
+	    		score = score + 10;
+	    		document.getElementById("score").innerHTML = "Score: " + score.toString();
+	    		isCorrect = true;
+	    	}
 
-    function callback() {
-    	console.log("in callback")
-    	addEmotions();
-    	if (!isCorrect) {
-    		numLives = numLives - 1;
-    		document.getElementById("numLives").innerHTML = numLives;
-    	}
-    	else {
-    		isCorrect = false;
-    	}
-    }*/
-    //console.log(timestamp)
-    var currTime = Math.ceil(5 - (timestamp % 5));
-    document.getElementById("currTime").innerHTML = "Time left: " + currTime.toString()
-    if (timestamp % 5 < 0.15 && !isCorrect ) {
-    	console.log("hi")
-    	addEmotions();
-    	numLives = numLives - 1;
-    	document.getElementById("numLives").innerHTML = "Remaining lives: " + numLives.toString();
-    	
-    }
-    else if (timestamp % 5 < 0.15 && isCorrect) {
-    	addEmotions();
-    	isCorrect = false;
-    	
-    }
-    else {
-
-    	if (faces[0].emotions[currEmotion] > 70 && !isCorrect) {
-    		score = score + 10;
-    		document.getElementById("score").innerHTML = "Score: " + score.toString();
-    		isCorrect = true;
-    	}
-
-    }
+	    }
    
 
-
-
-
+	}
   	
       });
 }
