@@ -129,7 +129,7 @@ onload = function () {
           }));*/
           drawFeaturePoints(image, faces[0].featurePoints);
 
-          if (score == 60) {
+          if (score == 60 && !levelUp) {
           	document.getElementById("userFeedback").innerHTML = "nice work, level up!"
 	    	document.getElementById("userFeedback").style.opacity = 1;
           	levelUp = true;
