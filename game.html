@@ -161,7 +161,7 @@ onload = function () {
     	}
     }*/
     //console.log(timestamp)
-    var currTime = timestamp % 5;
+    var currTime = 5 - (timestamp % 5);
     document.getElementById("currTime").innerHTML = "Time: " + currTime.toFixed(2);
     if (timestamp % 5 < 0.15 && !isCorrect ) {
     	console.log("hi")
@@ -289,8 +289,8 @@ function drawFeaturePoints(img, featurePoints) {
 	    	<div class="col-sm-6">
 	     		<div id="affdex_elements" style="width:85%;height:85%;text-align:center;"></div>
 	     		<!--<div id="affdex_elements" style="width:50%;height:50%;"></div>-->
-	     		<div id = "score" style = "font-size: 25px;">Score: 0</div>
-	     		<div id = "numLives" style = "font-size: 25px;">Remaining lives: 10</div>
+	     		<div id = "score" >Score: 0</div>
+	     		<div id = "numLives" >Remaining lives: 10</div>
 	     	</div>
 	     
 	     </div>
