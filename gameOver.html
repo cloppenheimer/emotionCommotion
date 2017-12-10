@@ -82,13 +82,27 @@
 
 
 	</style>
+
+	<script>
+		function start() {
+			var text = window.location.hash.substring(1)
+			document.getElementById("finalScore").innerHTML = "Final score: " + text;
+		}
+		
+
+
+	</script>
 </head>
 
-<body>
+<body onload = "start()">
+
+
+
 	<div class = "splash_body">
 		
 		<h1> emotion commotion </h1>
 		<h2>GAME OVER</h2>
+		<h3 id = "finalScore"> Final score: </h3>
 
 		<form action="game.html">
 	    	<button type="submit" formaction="game.html">play again</button>

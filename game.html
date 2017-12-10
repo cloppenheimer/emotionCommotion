@@ -147,7 +147,7 @@ onload = function () {
 	    	document.getElementById("userFeedback").innerHTML = "hi"
 	    	document.getElementById("userFeedback").style.opacity = 0;
 	    	if (numLives == 0)
-	    		window.location = "gameOver.html"
+	    		window.location = "gameOver.html" + "#" + score
 	    	
 	    }
 	    else if (timestamp % increment < 0.13 && isCorrect) {
