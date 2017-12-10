@@ -162,7 +162,7 @@ onload = function () {
     }*/
     //console.log(timestamp)
     var currTime = timestamp % 5;
-    document.getElementById("currTime").innerHTML = "Time: " + currTime.toString();
+    document.getElementById("currTime").innerHTML = "Time: " + currTime.toFixed(2);
     if (timestamp % 5 < 0.15 && !isCorrect ) {
     	console.log("hi")
     	addEmotions();
