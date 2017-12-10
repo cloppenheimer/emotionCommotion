@@ -134,14 +134,14 @@ onload = function () {
     	}
     }*/
     //console.log(timestamp)
-    if (timestamp % 5 == 0 && !isCorrect ) {
+    if ((timestamp % 5 > -0.1) && (timestamp % 5 < 0.1) && !isCorrect ) {
     	console.log("hi")
     	addEmotions();
     	numLives = numLives - 1;
     	document.getElementById("numLives").innerHTML = numLives;
     	
     }
-    else if (Math.floor(timestamp) % 5 == 0 && isCorrect) {
+    else if ((timestamp % 5 > -0.1) && (timestamp % 5 < 0.1) && isCorrect) {
     	addEmotions();
     	isCorrect = false;
     	
