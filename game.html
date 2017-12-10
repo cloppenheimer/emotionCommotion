@@ -34,7 +34,7 @@
 
 	.feedback {
 		font-size: 34px;
-		
+		/*opacity: 0;*/
 	}
 
 	#emotion-text {
@@ -138,19 +138,22 @@ onload = function () {
 	    	addEmotions();
 	    	numLives = numLives - 1;
 	    	document.getElementById("numLives").innerHTML = "Remaining lives: " + numLives.toString();
-	    	document.getElementById("userFeedback").innerHTML = ""
+	    	document.getElementById("userFeedback").innerHTML = "hi"
+	    	document.getElementById("userFeedback").style.opacity = 0;
 	    	if (numLives == 0)
 	    		window.location = "gameOver.html"
 	    	
 	    }
 	    else if (timestamp % 5 < 0.15 && isCorrect) {
 	    	addEmotions();
-	    	document.getElementById("userFeedback").innerHTML = ""
+	    	document.getElementById("userFeedback").innerHTML = "hi"
+	    	document.getElementById("userFeedback").style.opacity = 0;
 	    	isCorrect = false;
 	    	
 	    }
-	    else if (timestamp % 3 < 0.15 && !isCorrect) {
+	    else if (currTime == 2 && !isCorrect) {
 	    	document.getElementById("userFeedback").innerHTML = "hurry up!"
+	    	document.getElementById("userFeedback").style.opacity = 1;
 	    }
 	    else {
 
@@ -158,6 +161,7 @@ onload = function () {
 	    		score = score + 10;
 	    		document.getElementById("score").innerHTML = "Score: " + score.toString();
 	    		document.getElementById("userFeedback").innerHTML = "correct!"
+	    		document.getElementById("userFeedback").style.opacity = 1;
 	    		isCorrect = true;
 	    	}
 
@@ -259,7 +263,7 @@ function drawFeaturePoints(img, featurePoints) {
     	<div class = "row">
     		<div class="col-sm-6"> </div>
     		<div class="col-sm-6">
-    			<div id = "userFeedback"></div>
+    			<div id = "userFeedback" style = "opacity: 0">hi</div>
     		</div>
 
     	</div>
@@ -275,7 +279,7 @@ function drawFeaturePoints(img, featurePoints) {
 	    	</div>
 
 	    	<div class="col-sm-6">
-	     		<div id="affdex_elements" style="width:85%;height:85%;text-align:center;"></div>
+	     		<div id="affdex_elements" style="width:85%;height:85%;text-align:center;padding-left: 100px"></div>
 	     		<!--<div id="affdex_elements" style="width:50%;height:50%;"></div>-->
 	     		<div id = "score" style = "font-size: 25px; font-weight: bold;">Score: 0</div>
 	     		<div id = "numLives" style = "font-size: 25px; font-weight: bold;">Remaining lives: 10</div>
