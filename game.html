@@ -6,7 +6,7 @@
 
 <style> 
 	h1 {
-			font-size: 68px;
+			font-size: 60px;
 			font-family: "Avenir-Medium", Helvetica, "Helvetica Neue", Arial, sans-serif;
 			padding-top: 10px;
 			padding-botton: 15px;
@@ -20,7 +20,7 @@
 			font-size: 40px;
 			background-color: #009999;
 			font-family: "Avenir-Light", Helvetica, "Helvetica Neue", Arial, sans-serif;
-			text-color: white;
+			color: white;
 			text-align: center;
 			text-decoration: none;
 			background:-o-linear-gradient(-70deg, #009BB9 0%, #0EDCAD 100%);
@@ -33,7 +33,7 @@
 
 	#emotion-text {
 			font-size: 40px;
-			padding-top: 15px;
+			padding-top: 20px;
 			text-align: center;
 		}
 	#face_video_canvas {
@@ -163,7 +163,7 @@ onload = function () {
     	console.log("hi")
     	addEmotions();
     	numLives = numLives - 1;
-    	document.getElementById("numLives").innerHTML = numLives;
+    	document.getElementById("numLives").innerHTML = "Remaining lives: " + numLives.toString();
     	
     }
     else if (timestamp % 5 < 0.15 && isCorrect) {
@@ -175,7 +175,7 @@ onload = function () {
 
     	if (faces[0].emotions[currEmotion] > 70 && !isCorrect) {
     		score = score + 10;
-    		document.getElementById("score").innerHTML = score;
+    		document.getElementById("score").innerHTML = "Score: " + score.toString();
     		isCorrect = true;
     	}
 
@@ -285,8 +285,8 @@ function drawFeaturePoints(img, featurePoints) {
 	    	<div class="col-sm-6">
 	     		<div id="affdex_elements" style="width:85%;height:85%;text-align:center;"></div>
 	     		<!--<div id="affdex_elements" style="width:50%;height:50%;"></div>-->
-	     		<p> Score: <div id = "score">0</div> </p>
-	     		<p> Remaining lives: <div id = "numLives">10</div></p>
+	     		<div id = "score" style = "font-size: 25px;">Score: 0</div>
+	     		<div id = "numLives" style = "font-size: 25px;">Remaining lives: 10</div>
 	     	</div>
 	     
 	     </div>
