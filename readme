@@ -1,6 +1,11 @@
 Clara Oppenheimer and Tanya Sinha
 Assignment 8
 
+How to run:
+The game can be played in two ways. It is live at https://cloppenheimer.github.io/emotionCommotion
+or you can play by running the server with the command "node server.js" and visiting http://localhost:5000/
+in a browser.
+
 Our project is a game that uses the Affectiva API. Our game exemplifies the Stroop Effect,
 which is a demonstration of interference in the reaction time of a task. When the name of
 a color is written in  a different color (for example, the word "pink" printed in
@@ -33,10 +38,21 @@ Bootsrap to help us with the formatting and styling. We were struggling a lot wi
 getting the webcam to line up with the image, but Bootstrap made this much more simple. 
 
 Our final technology stack consisted of Javascript, HTML, CSS, Node.js, Bootstrap,
-and the Affectiva API. 
+Github, and the Affectiva API. 
 
-How to run:
-The game can be played in two ways. It is live at https://cloppenheimer.github.io/emotionCommotion/start.html
-or you can play by running the server with the command "node server.js" and visiting http://localhost:5000/
-in a browser.
+UI design:
+For our design document, we started out with a low-fidelity prototype to help us 
+plan out our web page. For our final product, we thought a lot about what
+would be the best way to display information such as score and time. We realized that 
+in a short amount of time, it is hard to keep track of all the different things.
+Therefore, we added the user feedback for time/correctness in their direct
+sight, so that they would not need to keep looking at the clock. We tried to keep 
+the minimum amount of information on the main game page to avoid distracting the 
+player. We also added a "play again" button so that it would be easy for
+the user to play again and they would not have to refresh the page. 
+
+
+
+
+
 

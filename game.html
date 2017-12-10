@@ -1,255 +1,236 @@
+<!--
+	Clara Oppenheimer and Tanya Sinha
+	Assignment 8
+	Main game page
+-->
+
 <!DOCTYPE html>
 <html>
 
 <head>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
-<style> 
-	h1 {
-			font-size: 68px;
-			font-family: "Avenir-Medium", Helvetica, "Helvetica Neue", Arial, sans-serif;
-			padding-bottom: 10px;
-			text-align: center;
-			color: #ffffff;
-			font-style: normal;
-			font-weight: bold;
+	<style> 
+		h1 {
+				font-size: 68px;
+				font-family: "Avenir-Medium", Helvetica, "Helvetica Neue", Arial, sans-serif;
+				padding-bottom: 10px;
+				text-align: center;
+				color: #ffffff;
+				font-style: normal;
+				font-weight: bold;
+			}
+
+		body {
+				font-family: Helvetica, Arial, sans-serif;
+				font-size: 40px;
+				background-color: #009999;
+				font-family: "Avenir-Light", Helvetica, "Helvetica Neue", Arial, sans-serif;
+				color: white;
+				text-align: center;
+				text-decoration: none;
+				background:-o-linear-gradient(-70deg, #009BB9 0%, #0EDCAD 100%);
+				background:-moz-linear-gradient(-70deg, #009BB9 0%, #0EDCAD 100%);
+				background:-ms-linear-gradient(-70deg, #009BB9 0%, #0EDCAD 100%);
+				background:linear-gradient(90deg, #009BB9 0%,#0EDCAD 100%);
+				background-repeat: no-repeat;
+				background-size: 100% 100%;
+			}
+
+		.feedback {
+			font-size: 34px;
 		}
 
-	body {
-			font-family: Helvetica, Arial, sans-serif;
-			font-size: 40px;
-			background-color: #009999;
-			font-family: "Avenir-Light", Helvetica, "Helvetica Neue", Arial, sans-serif;
-			color: white;
-			text-align: center;
-			text-decoration: none;
-			background:-o-linear-gradient(-70deg, #009BB9 0%, #0EDCAD 100%);
-			background:-moz-linear-gradient(-70deg, #009BB9 0%, #0EDCAD 100%);
-			background:-ms-linear-gradient(-70deg, #009BB9 0%, #0EDCAD 100%);
-			background:linear-gradient(90deg, #009BB9 0%,#0EDCAD 100%);
-			background-repeat: no-repeat;
-			background-size: 100% 100%;
+		#emotion-text {
+				font-size: 40px;
+				padding-top: 20px;
+				text-align: center;
+				font-weight: bold;
+		}
+		#face_video_canvas {
+			width: 85%;
+			height: 85%;
+			text-align:right;
 		}
 
-	.feedback {
-		font-size: 34px;
-		/*opacity: 0;*/
-	}
-
-	#emotion-text {
-			font-size: 40px;
-			padding-top: 20px;
-			text-align: center;
-			font-weight: bold;
+		#face_video {
+			width: 85%;
+			height: 85%;
+			text-align:right;
 		}
-	#face_video_canvas {
-		width: 85%;
-		height: 85%;
-		text-align:right;
-		/*padding-left: 30px;*/
+
+
+	</style>
+
+	<script src="https://download.affectiva.com/js/3.2/affdex.js"></script>
+
+	<script type="text/javascript">
+
+
+	var width = 640;
+	var height = 480;
+	var detector;
+	var currEmotion;
+	var score = 0;
+	var numLives = 10;
+	var isCorrect = false;
+	var justChangedEmotion = false;
+	var levelUp = false;
+	var increment = 5;
+
+	onload = function () {
+		  addEmotions()
+	      var divRoot = document.getElementById("affdex_elements")
+
+	      //Construct a CameraDetector and specify the image width / height and face detector mode.
+	      detector = new affdex.CameraDetector(divRoot, width, height, affdex.FaceDetectorMode.LARGE_FACES);
+	      console.log("made detector")
+
+	     
+	      detector.detectAllEmotions();
+	   
+	       onStart()
+
+	      //Add a callback to notify when the detector is initialized and ready for runing.
+	      detector.addEventListener("onInitializeSuccess", function() {
+		      //Display canvas instead of video feed because we want to draw the feature points on it
+		      document.getElementById("face_video_canvas").style.display = "block";
+		      document.getElementById("face_video").style.display = "none";
+	      });
+
+	      //Add a callback to notify when camera access is allowed
+	      detector.addEventListener("onWebcamConnectSuccess", function() {});
+
+	      //Add a callback to notify when camera access is denied
+	      detector.addEventListener("onWebcamConnectFailure", function() {
+	       		console.log("Webcam access denied");
+	      });
+
+	      //Add a callback to notify when detector is stopped
+	      detector.addEventListener("onStopSuccess", function() {
+	        	document.getElementById("results").innerHTML = ""
+	      });
+
+	      //Add a callback to receive the results from processing an image.
+	      //The faces object contains the list of the faces detected in an image.
+	      //Faces object contains probabilities for all the different expressions, emotions and appearance metrics
+	      detector.addEventListener("onImageResultsSuccess", function(faces, image, timestamp) {
+	      	if (faces.length > 0) {
+	         
+		          drawFeaturePoints(image, faces[0].featurePoints);
+
+		          if (score == 60 && !levelUp) {
+		          	document.getElementById("userFeedback").innerHTML = "nice work, level up!"
+			    	document.getElementById("userFeedback").style.opacity = 1;
+		          	levelUp = true;
+		          	increment = 3;
+		          }
+
+	 
+			    var currTime = Math.ceil(increment - (timestamp % increment));
+			    document.getElementById("currTime").innerHTML = "Time left: " + currTime.toString()
+
+			    if (timestamp % increment < 0.13 && !isCorrect ) {
+			    	addEmotions();
+			    	numLives = numLives - 1;
+			    	document.getElementById("numLives").innerHTML = "Remaining lives: " + numLives.toString();
+			    	document.getElementById("userFeedback").innerHTML = "hi"
+			    	document.getElementById("userFeedback").style.opacity = 0;
+			    	if (numLives == 0)
+			    		window.location = "gameOver.html" + "#" + score
+			    	
+			    }
+			    else if (timestamp % increment < 0.13 && isCorrect) {
+			    	addEmotions();
+			    	document.getElementById("userFeedback").innerHTML = "hi"
+			    	document.getElementById("userFeedback").style.opacity = 0;
+			    	isCorrect = false;
+			    	
+			    }
+			    else if (currTime == 2 && !isCorrect && !levelUp) {
+			    	document.getElementById("userFeedback").innerHTML = "hurry up!"
+			    	document.getElementById("userFeedback").style.opacity = 1;
+			    }
+			    else {
+			    	if (faces[0].emotions[currEmotion] > 70 && !isCorrect) {
+			    		score = score + 10;
+			    		document.getElementById("score").innerHTML = "Score: " + score.toString();
+			    		document.getElementById("userFeedback").innerHTML = "correct!"
+			    		document.getElementById("userFeedback").style.opacity = 1;
+			    		isCorrect = true;
+			    	}
+		    	}
+			}
+	      });
 	}
 
-	#face_video {
-		width: 85%;
-		height: 85%;
-		text-align:right;
-		/*padding-left: 30px;*/
+	function addEmotions() {
+		var emotionPics = ["angry", "disgust", "fear", "happy", "sad", "surprise"];
+		var emotionText = ["Anger", "Disgust", "Fear", "Joy", "Sadness", "Surprise"];
+		var emotions = ["anger", "disgust", "fear", "joy", "sadness", "surprise"];
+
+		var randomPicEmotion =  Math.floor(Math.random() * 6);
+		var randomPicNum = Math.floor(Math.random() * ( 5 - 1) + 1);
+
+		var randomTextEmotion = Math.floor(Math.random() * 6);
+
+		var imageName = "images/" + emotionPics[randomPicEmotion] + randomPicNum.toString() + ".jpg";
+
+		document.getElementById("emotionImage").src = imageName;
+
+		document.getElementById("emotionText").innerHTML = emotionText[randomTextEmotion];
+
+		currEmotion = emotions[randomTextEmotion];
+
+		justChangedEmotion = true;
 	}
 
-
-</style>
-
-<script src="https://download.affectiva.com/js/3.2/affdex.js"></script>
-
-<script type="text/javascript">
-
-
-var width = 640;
-var height = 480;
-var detector;
-var currEmotion;
-var score = 0;
-var numLives = 10;
-var isCorrect = false;
-var justChangedEmotion = false;
-var levelUp = false;
-var increment = 5;
-
-onload = function () {
-	  addEmotions()
-      var divRoot = document.getElementById("affdex_elements")
-
-      //Construct a CameraDetector and specify the image width / height and face detector mode.
-      detector = new affdex.CameraDetector(divRoot, width, height, affdex.FaceDetectorMode.LARGE_FACES);
-      console.log("made detector")
-
-     
-      //Enable detection of all Expressions, Emotions and Emojis classifiers.
-      detector.detectAllEmotions();
-     /* detector.detectAllExpressions();
-      detector.detectAllEmojis();
-      detector.detectAllAppearance();*/
-
-       onStart()
-
-      //Add a callback to notify when the detector is initialized and ready for runing.
-      detector.addEventListener("onInitializeSuccess", function() {
-        //log('logs', "The detector reports initialized");
-        //Display canvas instead of video feed because we want to draw the feature points on it
-      document.getElementById("face_video_canvas").style.display = "block";
-      document.getElementById("face_video").style.display = "none";
-      });
-
-      //Add a callback to notify when camera access is allowed
-      detector.addEventListener("onWebcamConnectSuccess", function() {
-        //log('logs', "Webcam access allowed");
-      });
-
-      //Add a callback to notify when camera access is denied
-      detector.addEventListener("onWebcamConnectFailure", function() {
-       // log('logs', "webcam denied");
-        console.log("Webcam access denied");
-      });
-
-      //Add a callback to notify when detector is stopped
-      detector.addEventListener("onStopSuccess", function() {
-        //log('logs', "The detector reports stopped");
-        document.getElementById("results").innerHTML = ""
-      });
-
-      //Add a callback to receive the results from processing an image.
-      //The faces object contains the list of the faces detected in an image.
-      //Faces object contains probabilities for all the different expressions, emotions and appearance metrics
-      detector.addEventListener("onImageResultsSuccess", function(faces, image, timestamp) {
-      //document.getElementById("results").innerHTML = ""
-        //log('results', "Timestamp: " + timestamp.toFixed(2));
-       if (faces.length > 0) {
-          /*log('results', "Emotions: " + JSON.stringify(faces[0].emotions, function(key, val) {
-            return val.toFixed ? Number(val.toFixed(0)) : val;
-          }));*/
-          drawFeaturePoints(image, faces[0].featurePoints);
-
-          if (score == 60 && !levelUp) {
-          	document.getElementById("userFeedback").innerHTML = "nice work, level up!"
-	    	document.getElementById("userFeedback").style.opacity = 1;
-          	levelUp = true;
-          	increment = 3;
-          }
-
- 
-	    var currTime = Math.ceil(increment - (timestamp % increment));
-	    document.getElementById("currTime").innerHTML = "Time left: " + currTime.toString()
-	    if (timestamp % increment < 0.13 && !isCorrect ) {
-	    	console.log("hi")
-	    	addEmotions();
-	    	numLives = numLives - 1;
-	    	document.getElementById("numLives").innerHTML = "Remaining lives: " + numLives.toString();
-	    	document.getElementById("userFeedback").innerHTML = "hi"
-	    	document.getElementById("userFeedback").style.opacity = 0;
-	    	if (numLives == 0)
-	    		window.location = "gameOver.html" + "#" + score
-	    	
-	    }
-	    else if (timestamp % increment < 0.13 && isCorrect) {
-	    	addEmotions();
-	    	document.getElementById("userFeedback").innerHTML = "hi"
-	    	document.getElementById("userFeedback").style.opacity = 0;
-	    	isCorrect = false;
-	    	
-	    }
-	    else if (currTime == 2 && !isCorrect && !levelUp) {
-	    	document.getElementById("userFeedback").innerHTML = "hurry up!"
-	    	document.getElementById("userFeedback").style.opacity = 1;
-	    }
-	    else {
-	    	if (faces[0].emotions[currEmotion] > 70 && !isCorrect) {
-	    		score = score + 10;
-	    		document.getElementById("score").innerHTML = "Score: " + score.toString();
-	    		document.getElementById("userFeedback").innerHTML = "correct!"
-	    		document.getElementById("userFeedback").style.opacity = 1;
-	    		isCorrect = true;
-	    	}
-
-	    }
-   
-
+	function log(node_name, msg) {
+	  document.getElementById(node_name).innerHTML += "<span>" + msg + "</span><br/>"
 	}
-  	
-      });
-}
 
-function addEmotions() {
-	 var emotionPics = ["angry", "disgust", "fear", "happy", "sad", "surprise"];
-	 var emotionText = ["Anger", "Disgust", "Fear", "Joy", "Sadness", "Surprise"];
-	 var emotions = ["anger", "disgust", "fear", "joy", "sadness", "surprise"];
+	//function executes when Start button is pushed.
+	function onStart() {
+		console.log("starting")
+		  if (detector && !detector.isRunning) {
+		    detector.start();
+		  }
+	}
 
-	var randomPicEmotion =  Math.floor(Math.random() * 6);
-	var randomPicNum = Math.floor(Math.random() * ( 5 - 1) + 1);
+	//function executes when the Stop button is pushed.
+	function onStop() {
+	  if (detector && detector.isRunning) {
+	    detector.removeEventListener();
+	    detector.stop();
+	  }
+	};
 
-	var randomTextEmotion = Math.floor(Math.random() * 6);
+	//function executes when the Reset button is pushed.
+	function onReset() {
+	  if (detector && detector.isRunning) {
+	    detector.reset();
+	  }
+	}
 
-	var imageName = "images/" + emotionPics[randomPicEmotion] + randomPicNum.toString() + ".jpg";
+	//Draw the detected facial feature points on the image
+	function drawFeaturePoints(img, featurePoints) {
+	  var c = document.getElementById("face_video_canvas");
+	  if (c==null) return;
+	  var contxt = c.getContext('2d');
 
-	document.getElementById("emotionImage").src = imageName;
+	  var hRatio = contxt.canvas.width / img.width;
+	  var vRatio = contxt.canvas.height / img.height;
+	  var ratio = Math.min(hRatio, vRatio);
 
-	document.getElementById("emotionText").innerHTML = emotionText[randomTextEmotion];
-
-	currEmotion = emotions[randomTextEmotion];
-
-	justChangedEmotion = true;
-}
-
-function log(node_name, msg) {
-  document.getElementById(node_name).innerHTML += "<span>" + msg + "</span><br/>"
-}
-
-//function executes when Start button is pushed.
-function onStart() {
-	console.log("starting")
-  if (detector && !detector.isRunning) {
-    //document.getElementById("logs").innerHTML = ""
-    detector.start();
-  }
-  //log('logs', "Clicked the start button");
-}
-
-//function executes when the Stop button is pushed.
-function onStop() {
-  //log('logs', "Clicked the stop button");
-  if (detector && detector.isRunning) {
-    detector.removeEventListener();
-    detector.stop();
-  }
-};
-
-//function executes when the Reset button is pushed.
-function onReset() {
-  //log('logs', "Clicked the reset button");
-  if (detector && detector.isRunning) {
-    detector.reset();
-    //document.getElementById("results").innerHTML = ""
-  }
-}
-
-//Draw the detected facial feature points on the image
-function drawFeaturePoints(img, featurePoints) {
-  var c = document.getElementById("face_video_canvas");
-  if (c==null) return;
-  var contxt = c.getContext('2d');
-
-  var hRatio = contxt.canvas.width / img.width;
-  var vRatio = contxt.canvas.height / img.height;
-  var ratio = Math.min(hRatio, vRatio);
-
-  contxt.strokeStyle = "#FFFFFF";
-  for (var id in featurePoints) {
-    contxt.beginPath();
-    contxt.arc(featurePoints[id].x,
-      featurePoints[id].y, 2, 0, 2 * Math.PI);
-    contxt.stroke();
-  }
-}
-</script>
+	  contxt.strokeStyle = "#FFFFFF";
+	  for (var id in featurePoints) {
+	    contxt.beginPath();
+	    contxt.arc(featurePoints[id].x,
+	      featurePoints[id].y, 2, 0, 2 * Math.PI);
+	    contxt.stroke();
+	  }
+	}
+	</script>
 
 </head>
 
@@ -257,24 +238,20 @@ function drawFeaturePoints(img, featurePoints) {
 	
 
     <div>
-      <!-- <button id="start" onclick="onStart()">Start</button>
-      <button id="stop" onclick="onStop()">Stop</button>
-      <button id="reset" onclick="onReset()">Reset</button> -->
-
-      <h1>emotion commotion</h1>
+      	<h1>emotion commotion</h1>
     </div>
     <div class = "feedback" >
-    <div class = "container">
-    	<div class = "row">
-    		<div class="col-sm-6"> </div>
-    		<div class="col-sm-6">
-    			<div id = "userFeedback" style = "opacity: 0">hi</div>
-    		</div>
+	    <div class = "container">
+	    	<div class = "row">
+	    		<div class="col-sm-6"> </div>
+	    		<div class="col-sm-6">
+	    			<div id = "userFeedback" style = "opacity: 0">hi</div>
+	    		</div>
 
-    	</div>
+	    	</div>
 
-   </div>
-</div>
+	   </div>
+	</div>
 
     <div class = "container">
 	    <div class = "row">
@@ -299,18 +276,6 @@ function drawFeaturePoints(img, featurePoints) {
  	<br/>
  	<br/>
  	<br/>
-
-    <!-- <br/>
-    <br/>
-    <div id="myui" style="color:red;"></div>
-        <div style="height:25em;">
-          <strong>Emotion Tracking Results</strong>
-          <div id="results" style="word-wrap:break-word;"></div>
-        </div>
-        <div>
-          <strong>Detector Log Msgs</strong>
-    		<div id="logs"></div>
-        </div> -->
 
  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>

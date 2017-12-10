@@ -33,10 +33,6 @@ app.get('/gameOver.html', function(request, response) {
 	response.sendFile(path.resolve('gameOver.html'));
 });
 
-app.post('/submit', function(request, response){
-	response.send({"vehicles":[],"passengers":[]});
-});
-
 app.listen(app.get('port'), function() {
   //console.log('Node app is running on port', app.get('port'));
 });
