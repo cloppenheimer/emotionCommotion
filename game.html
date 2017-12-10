@@ -86,7 +86,7 @@ onload = function () {
 
       //Add a callback to notify when the detector is initialized and ready for runing.
       detector.addEventListener("onInitializeSuccess", function() {
-        log('logs', "The detector reports initialized");
+        //log('logs', "The detector reports initialized");
         //Display canvas instead of video feed because we want to draw the feature points on it
       document.getElementById("face_video_canvas").style.display = "block";
       document.getElementById("face_video").style.display = "none";
@@ -94,18 +94,18 @@ onload = function () {
 
       //Add a callback to notify when camera access is allowed
       detector.addEventListener("onWebcamConnectSuccess", function() {
-        log('logs', "Webcam access allowed");
+        //log('logs', "Webcam access allowed");
       });
 
       //Add a callback to notify when camera access is denied
       detector.addEventListener("onWebcamConnectFailure", function() {
-        log('logs', "webcam denied");
+       // log('logs', "webcam denied");
         console.log("Webcam access denied");
       });
 
       //Add a callback to notify when detector is stopped
       detector.addEventListener("onStopSuccess", function() {
-        log('logs', "The detector reports stopped");
+        //log('logs', "The detector reports stopped");
         document.getElementById("results").innerHTML = ""
       });
 
@@ -114,11 +114,11 @@ onload = function () {
       //Faces object contains probabilities for all the different expressions, emotions and appearance metrics
       detector.addEventListener("onImageResultsSuccess", function(faces, image, timestamp) {
       document.getElementById("results").innerHTML = ""
-        log('results', "Timestamp: " + timestamp.toFixed(2));
-        if (faces.length > 0) {
+        //log('results', "Timestamp: " + timestamp.toFixed(2));
+       /* if (faces.length > 0) {
           log('results', "Emotions: " + JSON.stringify(faces[0].emotions, function(key, val) {
             return val.toFixed ? Number(val.toFixed(0)) : val;
-          }));
+          }));*/
           drawFeaturePoints(image, faces[0].featurePoints);
 
     // Primitive UI for happy
@@ -161,8 +161,8 @@ onload = function () {
     	}
     }*/
     //console.log(timestamp)
-    var currTime = Math.floor(5 - (timestamp % 5));
-    document.getElementById("currTime").innerHTML = "Time left: " + currTime.toFixed(2);
+    var currTime = Math.ceil(5 - (timestamp % 5));
+    document.getElementById("currTime").innerHTML = "Time left: " + currTime.toString()
     if (timestamp % 5 < 0.15 && !isCorrect ) {
     	console.log("hi")
     	addEmotions();
@@ -189,7 +189,7 @@ onload = function () {
 
 
 
-  	}
+  	
       });
 }
 
@@ -222,15 +222,15 @@ function log(node_name, msg) {
 function onStart() {
 	console.log("starting")
   if (detector && !detector.isRunning) {
-    document.getElementById("logs").innerHTML = ""
+    //document.getElementById("logs").innerHTML = ""
     detector.start();
   }
-  log('logs', "Clicked the start button");
+  //log('logs', "Clicked the start button");
 }
 
 //function executes when the Stop button is pushed.
 function onStop() {
-  log('logs', "Clicked the stop button");
+  //log('logs', "Clicked the stop button");
   if (detector && detector.isRunning) {
     detector.removeEventListener();
     detector.stop();
@@ -239,10 +239,10 @@ function onStop() {
 
 //function executes when the Reset button is pushed.
 function onReset() {
-  log('logs', "Clicked the reset button");
+  //log('logs', "Clicked the reset button");
   if (detector && detector.isRunning) {
     detector.reset();
-    document.getElementById("results").innerHTML = ""
+    //document.getElementById("results").innerHTML = ""
   }
 }
 
@@ -298,7 +298,7 @@ function drawFeaturePoints(img, featurePoints) {
 
  	<div id = "currTime"> Time: </div>
 
-    <br/>
+    <!-- <br/>
     <br/>
     <div id="myui" style="color:red;"></div>
         <div style="height:25em;">
@@ -308,7 +308,7 @@ function drawFeaturePoints(img, featurePoints) {
         <div>
           <strong>Detector Log Msgs</strong>
     		<div id="logs"></div>
-        </div>
+        </div> -->
 
  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
